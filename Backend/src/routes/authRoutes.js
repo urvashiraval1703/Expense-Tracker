@@ -1,0 +1,11 @@
+import express from "express";
+import { registerUser,loginUser,verifyOtp } from "../controllers/authController.js";
+
+const router = express.Router();
+
+//APIS
+router.post("/register",registerUser)
+router.post("/verifyOtp",verifyOtp)
+router.post("/login",loginUser)
+
+export default router;
