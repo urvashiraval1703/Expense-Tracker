@@ -2,6 +2,7 @@ import User from "../models/User.js"
 import Otp from "../models/Otp.js";
 import bcrypt from "bcryptjs"
 import nodemailer from "nodemailer"
+import jwt from "jsonwebtoken"
 
 
 export const registerUser = async (req, res) => {
@@ -65,7 +66,6 @@ export const registerUser = async (req, res) => {
 const generateOTP = () =>
     Math.floor(100000 + Math.random() * 900000).toString();
 
-
 const sendOtp = async (email, otp) => {
 
     //create Ethernal test account
@@ -90,6 +90,31 @@ const sendOtp = async (email, otp) => {
     console.log("OTP Sent ✔");
     console.log("Preview URL:", nodemailer.getTestMessageUrl(info));
 }
+
+
+export const resendOtp = async (req, res) => {
+
+    try {
+        const { email } = req.email
+        console.log(email)
+        const otp = await generateOTP();
+
+        await sendOtp(email, otp)
+
+        return res.status(201).json({
+            success: true,
+            message: "Otp sent Successfully!!",
+            // userInfo: newUser
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "Server Error!!",
+            error: error.message
+        })
+    }
+}
+
 
 export const verifyOtp = async (req, res) => {
 
@@ -150,6 +175,7 @@ export const loginUser = async (req, res) => {
 
     try {
         const { email, password } = req.body
+        console.log(email, password)
 
         if (!email || !password) {
             return res.staus(400).json({
@@ -159,6 +185,7 @@ export const loginUser = async (req, res) => {
         }
 
         const user = await User.findOne({ email });
+        console.log(user)
         if (!user) {
             return res.staus(404).json({
                 success: false,
@@ -168,7 +195,7 @@ export const loginUser = async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password)
         if (!isMatch) {
-            return res.staus(401).json({
+            return res.status(401).json({
                 success: false,
                 message: "Invalid creadentials"
             })
@@ -183,25 +210,49 @@ export const loginUser = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: "Login Successfull!!",
-            user: user,
-            accessToken: token
+            user: {
+                user: user,
+                accessToken: token
+            }
         })
 
     }
     catch (error) {
-
+        console.error("Login Error:", error)
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
     }
 
 }
 
-export const resetPassword = async(req,res)=>{
-    const email = req.body
-    console.log(email)
+export const resetPassword = async (req, res) => {
 
-    
+    try {
+        const email = req.body
+        console.log(email)
+
+        if (!email) {
+            return res.staus(400).json({
+                success: false,
+                message: "Email is required"
+            })
+        }
+
+        const user = User.findByIdAndUpdate({ email, password });
+
+        return res.status(200).json({
+            success: true,
+            message: "Password reset successfully!!",
+        })
+    }
+    catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error"
+        })
+    }
+
 }
 
-// module.exports = {
-//     registerUser,
-//     loginUser
-// };

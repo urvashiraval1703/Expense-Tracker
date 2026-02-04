@@ -1,0 +1,59 @@
+.expense-navbar {
+  background: linear-gradient(90deg, #4f7df3, #5d86e8);
+  height: 70px;
+  border-radius: 12px;
+  margin: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.logo-icon {
+  background: white;
+  color: #4f7df3;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.logo-text {
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+/* Menu */
+.nav-link {
+  color: #e6ecff !important;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-link.active {
+  color: white !important;
+}
+
+.nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+}
+
+/* Right side */
+.logout-text {
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.profile-img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid white;
+}

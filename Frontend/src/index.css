@@ -69,3 +69,14 @@ button:focus-visible {
  body{
   width: 100;
  }
+
+ .required{
+    color: red;
+    margin-left: 3px;
+}
+
+.blur-background {
+  filter: blur(5px);
+  pointer-events: none;
+  user-select: none;
+}

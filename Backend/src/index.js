@@ -4,6 +4,7 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js"
+import exportRoutes from "./routes/expenseRoutes.js"
 
 dotenv.config();
 connectDB();
@@ -16,6 +17,7 @@ app.use(cors());
 
 // Routes
 app.use("/auth", authRoutes);
+app.use("/expense",exportRoutes)
 
 // Test route
 app.get("/", (req, res) => {

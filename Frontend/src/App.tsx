@@ -1,44 +1,39 @@
-import { Signup } from './pages/Signup'
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Login } from './pages/Login'
+import { Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import './App.css'
-import { VerifyOtp } from './pages/VerifyOtp';
-import { ResetPassword } from './pages/ResetPassword';
-import { ForgetPassword } from './pages/ForgetPassword';
-import { Dashboard } from './pages/Dashboard';
+import { UserProvider } from './context/UserContext';
+import PublicRoutes from './routes/PublicRoutes';
+import { Analytics } from "./pages/Analytics";
+import { Budget } from "./pages/Budget";
+import { Dashboard } from "./pages/Dashboard";
+import { Expense } from "./pages/Expense";
+import { Profile } from "./pages/Profile";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
 
 function App() {
 
   return (
     <div className='w-100'>
+      <UserProvider>
       <Router>
         <Routes>
-          <Route path="/" Component={Signup} />
-          <Route path="/signup" Component={Signup} />
-          <Route path="/login" Component={Login} />
-          <Route path="/verifyOtp" Component={VerifyOtp} />
-          <Route path='/resetPassword' Component={ResetPassword} />
-          <Route path='/forgetPassword' Component={ForgetPassword} />
-          <Route path='/dashboard' Component={Dashboard}/>
+          {/* Public */}
+          <Route path="/*" element={<PublicRoutes />} />
+
+          {/* Protected */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/expense" element={<Expense />} />
+            <Route path="/analytics" element={<Analytics />} />
+            <Route path="/budget" element={<Budget />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
         </Routes>
 
+        <ToastContainer position="top-right" autoClose={3000} />
       </Router>
-
-      {/* Toast container added here once globally */}
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}  // 3 seconds
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-
+    </UserProvider>
     </div>
   )
 }

@@ -21,6 +21,10 @@ export const verifyOtp = async (formData:any) => {
     return await axios.post("http://localhost:5000/auth/verifyOtp",obj)
 }
 
+export const resendOtp = async(formdata:any)=>{
+    return await axios.post("http://localhost:5000/auth/resendOtp",formdata.email)
+}
+
 export const loginUser = async(formData:any)=>{
-    return await axios.post("http://localhost:5000/auth/loginUser",formData)
+    return await axios.post("http://localhost:5000/auth/login",formData)
 }

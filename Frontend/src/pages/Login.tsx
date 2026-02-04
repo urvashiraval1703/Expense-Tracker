@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button } from '../components/Button'
 import { toast } from 'react-toastify'
 
 import "./Signup.css";
 import { loginUser } from '../service/authService';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 export const Login = () => {
 
@@ -14,6 +15,8 @@ export const Login = () => {
     })
     const [showPassword, setShowPassword] = useState(false)
     const navigate = useNavigate()
+    const context = useContext(UserContext)
+    const {setUser} = context;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e)
@@ -46,6 +49,8 @@ export const Login = () => {
             const response = await loginUser(formData)
             console.log(response)
             toast.success(response.data.message)
+            setUser(response.data.user)
+            localStorage.setItem("User",JSON.stringify(response.data.user))
             navigate("/dashboard")
             
         } catch (error: any) {
