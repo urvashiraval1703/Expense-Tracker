@@ -123,7 +123,7 @@ export const Dashboard = () => {
 
             {/* PAYMENT MODE CARDS */}
             <div className="col-12 col-md-5">
-              <div className="payment-cards ">
+              <div className="payment-cards d-flex align-items-center">
 
                 <SummaryCard
                   title="UPI"

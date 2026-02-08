@@ -30,7 +30,7 @@ export const DonoughtChart = ({  values }: Props) => {
     const options: ChartOptions<'doughnut'>  = {
             responsive: true,
             maintainAspectRatio: false,
-            cutout: '65%',
+            cutout: '53%',
     
             plugins: {
                 legend: {
